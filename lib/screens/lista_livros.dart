@@ -1,4 +1,4 @@
-import 'package:bookstore/components/bottao_curto.dart';
+import 'package:bookstore/widgets/bottao_curto.dart';
 import 'package:bookstore/db/dao/livro_dao.dart';
 import 'package:bookstore/model/livro.dart';
 import 'package:bookstore/screens/formulario_livro.dart';

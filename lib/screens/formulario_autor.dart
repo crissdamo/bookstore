@@ -1,5 +1,5 @@
-import 'package:bookstore/components/bottao_curto.dart';
-import 'package:bookstore/components/bottao_largo.dart';
+import 'package:bookstore/widgets/bottao_curto.dart';
+import 'package:bookstore/widgets/bottao_largo.dart';
 import 'package:bookstore/db/dao/autor_dao.dart';
 import 'package:bookstore/model/autor.dart';
 import 'package:bookstore/screens/home.dart';

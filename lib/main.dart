@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: title,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amberAccent),
-        primaryColor: Colors.red[700],
+        primaryColor: Colors.amber[700],
         useMaterial3: true,
       ),
       home: const MyHomePage(title: title),

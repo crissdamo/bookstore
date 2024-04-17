@@ -1,4 +1,4 @@
-import 'package:bookstore/components/bottao_largo.dart';
+import 'package:bookstore/widgets/bottao_largo.dart';
 import 'package:bookstore/screens/lista_autor.dart';
 import 'package:bookstore/screens/lista_categorias.dart';
 import 'package:bookstore/screens/lista_livros.dart';
