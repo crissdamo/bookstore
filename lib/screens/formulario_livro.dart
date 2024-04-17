@@ -31,7 +31,7 @@ class _FormularioLivroState extends State<FormularioLivro> {
   final LivroDao _dao = LivroDao();
 
   final AutorDao _daoAutor = AutorDao();
-  late Autor _autorSelecionado;
+  Autor? _autorSelecionado;
 
   final CategoriaDao _daoCategoria = CategoriaDao();
   late Categoria _categoriaSelecionada;
@@ -41,14 +41,12 @@ class _FormularioLivroState extends State<FormularioLivro> {
   callbackCategoria(categoriaselecionada) {
     setState(() {
       _categoriaSelecionada = categoriaselecionada;
-      debugPrint(_categoriaSelecionada.descricao);
     });
   }
 
   callbackAutor(autorSelecionado) {
     setState(() {
       _autorSelecionado = autorSelecionado;
-      debugPrint(_autorSelecionado.nome);
     });
   }
 
@@ -59,8 +57,6 @@ class _FormularioLivroState extends State<FormularioLivro> {
     if (widget.livro != null) {
       _controllerTitulo.text = widget.livro!.titulo!;
       _controllerAno.text = widget.livro!.ano!;
-      // _controllerAutor.text = widget.livro!.autor! as String;
-      // _controllerCategoria.text = widget.livro!.categoria! as String;
     }
   }
 
@@ -114,29 +110,15 @@ class _FormularioLivroState extends State<FormularioLivro> {
                 },
               ),
               const SizedBox(height: 10),
-
-              // FutureBuilder<List<Categoria>>(
-              // future: _daoCategoria.findAll(),
-              // builder: (context, snapshot) {
-              //   return DropdownButtonFormField(
-              //     items: snapshot.data!,
-              //     value: _categoriaSelecionada,
-              //     onChanged: (Categoria? value) {
-              //       setState(() {
-              //         if (value != null) {
-              //           setState(() {
-              //             _categoriaSelecionada;
-              //           });
-              //         }
-              //       });
-              //     },
-              //   );})
-
               FutureBuilder<List<Autor>>(
                 future: _daoAutor.findAll(),
                 builder: (context, snapshot) {
                   return snapshot.hasData
-                      ? AutoresDropDown(snapshot.data!, callbackAutor)
+                      ? AutoresDropDown(
+                          snapshot.data!,
+                          _autorSelecionado,
+                          callbackAutor,
+                        )
                       : const Text('Nenhum autor');
                 },
               ),
@@ -158,14 +140,31 @@ class _FormularioLivroState extends State<FormularioLivro> {
                     icon: Icons.save,
                     text: widget.livro == null ? 'Salvar' : 'Atualizar',
                     onPressed: () {
-                      // AutorDao _daoAutor = AutorDao();
-                      // var umAutor = _daoAutor.findByID(1);
+                      if (_formKey.currentState!.validate()) {
+                        final String titulo = _controllerTitulo.text;
+                        final String ano = _controllerAno.text;
+                        int? categoriaId = _categoriaSelecionada.id;
+                        int? autorId = _autorSelecionado!.id;
 
-                      // CategoriaDao _daoCategoria = CategoriaDao();
-                      // var umaCategoria = _daoCategoria.findByID(1);
-
-                      var novoLivro = Livro(0, "Quincas Borba", "1981", 2, 1);
-                      _dao.insert(novoLivro);
+                        if (widget.livro == null) {
+                          final newLivro =
+                              Livro(0, titulo, ano, autorId, categoriaId);
+                          _dao.insert(newLivro).then((id) {
+                            Navigator.pop(context);
+                          });
+                        } else {
+                          final updateCategoria = widget.livro!.copyWith(
+                              titulo: titulo,
+                              ano: ano,
+                              autor: autorId,
+                              categoria: categoriaId);
+                          _dao.edit(updateCategoria).then((value) {
+                            Navigator.pop(context);
+                          });
+                        }
+                      }
+                      // var novoLivro = Livro(0, "Quincas Borba", "1981", 2, 1);
+                      // _dao.insert(novoLivro);
                     },
                   ),
                 ),

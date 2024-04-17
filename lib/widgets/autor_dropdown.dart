@@ -7,8 +7,11 @@ class AutoresDropDown extends StatefulWidget {
 
   Function(Autor) callback;
 
+  Autor? autorSelecionado;
+
   AutoresDropDown(
     this.autores,
+    this.autorSelecionado,
     this.callback, {
     super.key,
   });
