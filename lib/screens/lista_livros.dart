@@ -44,7 +44,6 @@ class _ListaLivroState extends State<ListaLivro> {
       setState(() {
         _isLoading = false;
       });
-      // Tratar o erro de forma adequada, como exibir uma mensagem de erro para o usuário.
       // ignore: avoid_print
       debugPrint("Erro ao carregar Livros: $e");
     }
